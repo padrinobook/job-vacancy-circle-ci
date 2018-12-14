@@ -37,7 +37,7 @@ jobs:
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
 
       # Database setup
-      - run: bundle exec rake ar:create
+      - run: bundle exec rake ar:create:all
       - run: bundle exec rake ar:schema:load
 
       # run tests!
@@ -48,8 +48,6 @@ jobs:
             TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
 
             bundle exec rspec --format progress \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
                             --format progress \
                             $TEST_FILES
 
